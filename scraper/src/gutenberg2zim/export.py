@@ -575,16 +575,20 @@ def _lcc_shelf_to_preview(shelf_code: str) -> LCCShelfPreview:
     )
 
 
-def add_index_entry(title: str, content: str, fname: str, vue_route: str) -> None:
-    """Add a custom item to the ZIM index with HTML redirect to Vue.js route.
+def add_index_entry(title: str, content: str, fname: str) -> None:
+    """Add a custom item to the ZIM index with HTML redirect to no-JS fallback page.
+
+    Search results (title search, full-text) must work without JavaScript. Index
+    entries redirect to noscript pages so both JS and no-JS users can access
+    content when clicking search results.
 
     Args:
         title: Title for the index entry
         content: Content/description for search indexing
-        fname: Filename for the index entry (e.g., "book_12345")
-        vue_route: Vue.js route path (e.g., "book/12345")
+        fname: Filename for the index entry (e.g., "book_12345") - must match
+            the noscript page name (e.g., noscript/book_12345.html)
     """
-    redirect_url = f"../index.html#/{vue_route}"
+    redirect_url = f"../noscript/{fname}.html"
     html_content = (
         f"<html><head><title>{title}</title>"
         f'<meta http-equiv="refresh" content="0;URL=\'{redirect_url}\'" />'
@@ -686,7 +690,6 @@ def generate_json_files(
             title=book.title,
             content=book_description,
             fname=f"book_{book.book_id}",
-            vue_route=f"book/{book.book_id}",
         )
 
     logger.debug("Generating author detail files and index entries")
@@ -730,7 +733,6 @@ def generate_json_files(
             title=author.name(),
             content=author_content,
             fname=f"author_{author.gut_id}",
-            vue_route=f"author/{author.gut_id}",
         )
 
     if add_lcc_shelves:
@@ -764,7 +766,6 @@ def generate_json_files(
                 title=shelf_title,
                 content=shelf_content,
                 fname=f"lcc_shelf_{shelf_code}",
-                vue_route=f"lcc-shelf/{shelf_code}",
             )
 
     logger.info("JSON file generation completed")
