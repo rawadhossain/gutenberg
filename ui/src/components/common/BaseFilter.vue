@@ -3,14 +3,18 @@ import { useMultiSelectFilter } from '@/composables/useMultiSelectFilter'
 import EmptyState from './EmptyState.vue'
 import { MESSAGES } from '@/constants/theme'
 
-const props = defineProps<{
-  title: string
-  icon: string
-  items: string[]
-  modelValue: string[]
-  emptyMessage?: string
-  iconMap?: Record<string, string>
-}>()
+const props = withDefaults(
+  defineProps<{
+    title: string
+    icon: string
+    items: string[]
+    modelValue: string[]
+    emptyMessage?: string
+    iconMap?: Record<string, string>
+    uppercaseLabels?: boolean
+  }>(),
+  { uppercaseLabels: true }
+)
 
 const emit = defineEmits<{
   'update:modelValue': [value: string[]]
@@ -23,6 +27,10 @@ function getIcon(item: string): string | undefined {
     return undefined
   }
   return props.iconMap[item.toLowerCase()] || props.iconMap[item] || undefined
+}
+
+function getItemLabel(item: string): string {
+  return props.uppercaseLabels ? item.toUpperCase() : item
 }
 </script>
 
@@ -68,14 +76,14 @@ function getIcon(item: string): string | undefined {
           :color="modelValue.includes(item) ? 'primary' : undefined"
           :prepend-icon="getIcon(item)"
           :aria-pressed="modelValue.includes(item)"
-          :aria-label="`${item.toUpperCase()} filter${modelValue.includes(item) ? ' (selected)' : ''}`"
+          :aria-label="`${getItemLabel(item)} filter${modelValue.includes(item) ? ' (selected)' : ''}`"
           role="button"
           tabindex="0"
           @click="toggle(item)"
           @keydown.enter="toggle(item)"
           @keydown.space.prevent="toggle(item)"
         >
-          {{ item.toUpperCase() }}
+          {{ getItemLabel(item) }}
         </v-chip>
       </v-chip-group>
 

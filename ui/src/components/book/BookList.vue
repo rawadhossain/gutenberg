@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BookPreview } from '@/types'
-import { getPopularityStars, normalizeImagePath } from '@/utils/format-utils'
+import { getLanguageName, getPopularityStars, normalizeImagePath } from '@/utils/format-utils'
 import EmptyState from '@/components/common/EmptyState.vue'
 import { AVATAR_SIZES, MESSAGES } from '@/constants/theme'
 
@@ -47,7 +47,7 @@ const MAX_LANGUAGES_IN_LIST = 2
             variant="outlined"
             class="mb-1"
           >
-            {{ lang.toUpperCase() }}
+            {{ getLanguageName(lang) }}
           </v-chip>
         </div>
       </template>
