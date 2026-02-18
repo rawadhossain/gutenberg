@@ -46,7 +46,6 @@ function getItemLabel(item: string): string {
           v-if="modelValue.length > 0"
           variant="text"
           size="small"
-          class="filter-action"
           @click="clearAll()"
           aria-label="Clear all selections"
         >
@@ -56,7 +55,6 @@ function getItemLabel(item: string): string {
           v-if="modelValue.length < items.length"
           variant="text"
           size="small"
-          class="filter-action"
           @click="selectAll(items)"
           aria-label="Select all"
         >
@@ -68,7 +66,7 @@ function getItemLabel(item: string): string {
     <v-divider />
 
     <v-card-text>
-      <v-chip-group multiple column role="group" aria-label="Filter options">
+      <v-chip-group multiple column>
         <v-chip
           v-for="item in items"
           :key="item"
@@ -99,34 +97,18 @@ function getItemLabel(item: string): string {
 <style scoped>
 .filter-header {
   display: flex;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
   gap: 8px;
-  line-height: 1.2;
 }
 
 .filter-title {
   display: flex;
   align-items: center;
-  min-width: 140px;
-  flex: 1 1 auto;
 }
 
 .filter-actions {
   display: flex;
-  flex-wrap: wrap;
   gap: 6px;
-  justify-content: flex-start;
-  flex: 1 1 auto;
-}
-
-.filter-action {
-  min-width: auto;
-  padding-inline: 12px;
-}
-
-@media (max-width: 640px) {
-  .filter-actions {
-    width: 100%;
-  }
 }
 </style>
