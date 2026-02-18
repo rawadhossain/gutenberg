@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BookPreview } from '@/types'
-import { getPopularityStars } from '@/utils/format-utils'
+import { getLanguageName, getPopularityStars } from '@/utils/format-utils'
 import BookCoverImage from '@/components/common/BookCoverImage.vue'
 
 defineProps<{
@@ -45,9 +45,9 @@ defineProps<{
           :key="lang"
           size="x-small"
           variant="outlined"
-          :aria-label="`Language: ${lang}`"
+          :aria-label="`Language: ${getLanguageName(lang)}`"
         >
-          {{ lang.toUpperCase() }}
+          {{ getLanguageName(lang) }}
         </v-chip>
       </v-chip-group>
     </v-card-text>

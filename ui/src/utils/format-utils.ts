@@ -1,3 +1,5 @@
+import { LANGUAGE_NAMES } from '@/data/languageNames'
+
 export function formatAuthorName(firstName: string | null, lastName: string): string {
   if (firstName) {
     return `${firstName} ${lastName}`
@@ -33,9 +35,12 @@ export function getPopularityStars(popularity: number): string {
   return '★'.repeat(clamped) + '☆'.repeat(5 - clamped)
 }
 
+export function getLanguageName(code: string): string {
+  return LANGUAGE_NAMES[code] ?? code
+}
+
 export function formatLanguages(languages: string[]): string {
-  // Language codes are displayed as-is (e.g., 'en', 'fr')
-  return languages.join(', ')
+  return languages.map(getLanguageName).join(', ')
 }
 
 export function pluralize(count: number, singular: string, plural?: string): string {
